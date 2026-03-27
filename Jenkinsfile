@@ -2,19 +2,15 @@ pipeline {
     agent any
 
     stages {
-        stage('Build Docker Image') {
+        stage('Install Dependencies') {
             steps {
-                script {
-                    docker.build("ci-cd-app")
-                }
+                sh 'pip install -r requirements.txt'
             }
         }
 
-        stage('Run Container') {
+        stage('Run App') {
             steps {
-                script {
-                    docker.run("-d -p 5001:5000 ci-cd-app")
-                }
+                sh 'python app.py'
             }
         }
     }
